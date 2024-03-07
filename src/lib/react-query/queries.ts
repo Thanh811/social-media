@@ -8,7 +8,7 @@ import {
   getInfinitePosts,
   getPostById,
   getRecentPosts,
-  getTopCreator,
+  getUser,
   likePost,
   savePost,
   searchPosts,
@@ -190,10 +190,9 @@ export const useSearchPosts = (searchTerm: string) => {
   });
 };
 
-export const useGetTopCreator = () => {
+export const useGetUser = (limit?: number) => {
   return useQuery({
     queryKey: [QUERY_KEYS.GET_USERS],
-    queryFn: getTopCreator,
-    enabled: true
+    queryFn: () => getUser(limit),
   })
 }

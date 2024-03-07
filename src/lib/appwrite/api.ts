@@ -346,12 +346,12 @@ export async function searchPosts(searchTerm: string) {
   }
 }
 
-export const getTopCreator = async () => {
+export const getUser = async (limit = 10) => {
   try {
     const user = await databases.listDocuments(
       appwriteConfig.databaseId,
       appwriteConfig.userCollectionId,
-      [Query.orderDesc('$createdAt'), Query.limit(10)]
+      [Query.orderDesc('$createdAt'), Query.limit(limit)]
     )
     if (!user) throw Error
     return user

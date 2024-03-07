@@ -11,8 +11,6 @@ type PostStatsProps = {
 };
 
 const PostStats = ({ post, userId }: PostStatsProps) => {  
-  console.log(post);
-  
   const location = useLocation();
   const { mutate: likePost } = useLikePost();
   const { mutate: savePost } = useSavePost();
