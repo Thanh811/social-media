@@ -8,7 +8,6 @@ import {
   getInfinitePosts,
   getPostById,
   getRecentPosts,
-  getSavedPost,
   getUser,
   likePost,
   savePost,
@@ -197,12 +196,3 @@ export const useGetUser = (limit?: number) => {
     queryFn: () => getUser(limit),
   })
 }
-
-export const useGetSavedPosts = () => {
-  return useQuery({
-    
-    queryKey: [QUERY_KEYS.GET_RECENT_POSTS],
-    queryFn: getSavedPost,
-    
-  });
-};
