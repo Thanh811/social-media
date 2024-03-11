@@ -360,3 +360,17 @@ export const getUser = async (limit = 10) => {
     
   }
 }
+
+export const getSavedPost = async () => {
+  try {
+    const savedPost = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.savesCollectionId,
+    )
+    if (!savedPost) throw Error
+    return savedPost
+  } catch (error) {
+    console.log();
+    
+  }
+}
