@@ -1,12 +1,22 @@
 import { useGetCurrentUser } from '@/lib/react-query/queries';
 import Loader from '@/components/shared/Loader';
-import GridPostList from '@/components/shared/GridPostList';
 import { Models } from 'appwrite';
-import GridPostSavedList from '@/components/shared/GridSavedPostList';
+import GridPostList from '@/components/shared/GridPostList';
 
 const Saved = () => {
   const { data: currentUser } = useGetCurrentUser()
-  
+
+  const postList = currentUser && currentUser.posts ? currentUser.posts.reduce((accumulator: any, currentValue: Models.Document) => ({ ...accumulator, [currentValue.$id]: true }), {}) : null
+
+  const savePosts = currentUser?.save
+    .map((savePost: Models.Document) => ({
+      ...savePost.post,
+      creator: {
+        imageUrl: currentUser.imageUrl,
+      },
+      isEdit: postList && postList[savePost.post.$id]
+    }))
+    .reverse();
 
   if (!currentUser)
     return (
@@ -14,8 +24,6 @@ const Saved = () => {
         <Loader />
       </div>
     );
-  const shouldShowPosts = currentUser.save.length === 0;
-
   return (
     <div className='saved-container'>
       <div className="max-w-5xl flex-start gap-3 justify-start w-full">
@@ -28,18 +36,11 @@ const Saved = () => {
         />
         <h2 className="h3-bold md:h2-bold w-full">Saved Post</h2>
       </div>
-      <div className="flex-between w-full max-w-5xl mt-16 mb-7">
-        {shouldShowPosts ? (
-          <p className="text-light-4 mt-10 text-center w-full">End of posts</p>
+      <div className="flex-between w-full max-w-5xl mt-16 mb-7 gap-9">
+        {savePosts.length === 0 ? (
+          <p className="text-light-4 mt-10 text-center w-full">No available posts</p>
         ) : (
-<GridPostSavedList savedPost={currentUser.save} />
-          // currentUser.save.map((item: Models.Document, index: number) => {
-          //   console.log(currentUser);
-            
-          //   return (
-          //     <div>{typeof(item.post)}</div>
-          //   <GridPostList key={`page-${index}`} posts={item.post ?? []} />
-          // )})
+          <GridPostList posts={savePosts} showStats={false} showUser={false}/>
         )}
 
 

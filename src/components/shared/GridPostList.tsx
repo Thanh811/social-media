@@ -16,18 +16,35 @@ const GridPostList = ({posts,
 }: GridPostListProps) => {
   const { user } = useUserContext();
 
+  const linkTo = (idPost: string, isEdit?: boolean) => {
+    const url = isEdit ? '/update-post' : '/posts'
+    return  url + `/${idPost}`
+  }
+
   return (
     <ul className="grid-container">
       {posts.map((post) => (
         <li key={post.$id} className="relative min-w-80 h-80">
-          <Link to={`/posts/${post.$id}`} className="grid-post_link">
+          <Link to={linkTo(post.$id, post.isEdit)} className="grid-post_link">
             <img
               src={post.imageUrl}
               alt="post"
               className="h-full w-full object-cover"
             />
           </Link>
-
+          {post.isEdit && (
+              <div className='absolute top-5 right-5'>
+                <img
+                  src={
+                    "/assets/icons/carousel.svg"
+                  }
+                  alt="edit"
+                  width={20}
+                  height={20}
+                  className="cursor-pointer"
+                        />
+              </div>
+            )}
           <div className="grid-post_user">
             {showUser && (
               <div className="flex items-center justify-start gap-2 flex-1">
