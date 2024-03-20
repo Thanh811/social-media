@@ -1,10 +1,11 @@
+import { GridPostList } from '@/components/shared'
 import Loader from '@/components/shared/Loader'
 import PostStats from '@/components/shared/PostStats'
 import { Button } from '@/components/ui/button'
 import { useUserContext } from '@/context/useContext'
-import { useDeletePost, useGetPostById } from '@/lib/react-query/queries'
+import { useDeletePost, useGetCurrentUser, useGetPostById } from '@/lib/react-query/queries'
 import { multiFormatDateString } from '@/lib/utils'
-import React from 'react'
+import { Models } from 'appwrite'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 
 const PostDetail = () => {
@@ -13,6 +14,20 @@ const PostDetail = () => {
   const { user } = useUserContext();
   const { data: post, isLoading } = useGetPostById(id || '');
   const { mutate: deletePost } = useDeletePost();
+  const { data: currentUser } = useGetCurrentUser()
+
+  const postList = currentUser && currentUser.posts ? currentUser.posts.reduce((accumulator: any, currentValue: Models.Document) => ({ ...accumulator, [currentValue.$id]: true }), {}) : null
+
+  const savePosts = currentUser?.save
+    .map((savePost: Models.Document) => ({
+      ...savePost.post,
+      ...currentUser.post,
+      creator: {
+        imageUrl: currentUser.imageUrl,
+      },
+      isEdit: postList && postList[savePost.post.$id]
+    }))
+    .reverse() ?? [];
 
   const handleDeletePost = () => {
     deletePost({ postId: id || '', imageId: post?.imageId });
@@ -116,6 +131,14 @@ const PostDetail = () => {
           </div>
         </div>
       </div>)}
+      <h2 className="h3-bold md:h2-bold w-full">More related post</h2>
+
+      {savePosts.length === 0 ? (
+          <p className="text-light-4 mt-10 text-center w-full">No post</p>
+        ) : (
+
+      <GridPostList posts={savePosts} />
+        )}
     </div>
   )
 }

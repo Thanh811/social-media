@@ -13,6 +13,15 @@ export const SignInValidation = z.object({
   password: z.string().min(8, { message: SIGN_UP.PASSWORD_MIN_CHARACTER}),
 })
 
+export const ForgotPasswordValidation = z.object({
+  email: z.string().email(),
+})
+
+export const RecoveryPasswordValidation = z.object({
+  password: z.string().min(8, { message: SIGN_UP.PASSWORD_MIN_CHARACTER}),
+  passwordAgain: z.string().min(8, { message: SIGN_UP.PASSWORD_MIN_CHARACTER}),
+})
+
 export const ProfileValidation = z.object({
   file: z.custom<File[]>(),
   name: z.string().min(2, { message: COMMON.NAME_MIN_CHARACTER }),

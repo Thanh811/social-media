@@ -1,6 +1,5 @@
 import PostForm from '@/components/forms/PostForm'
 import { ACTION_POST } from '@/constants'
-import React from 'react'
 
 const CreatePost = () => {
   return (

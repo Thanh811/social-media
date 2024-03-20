@@ -1,5 +1,4 @@
 import { useGetUser } from '@/lib/react-query/queries'
-import React from 'react'
 import Loader from './Loader'
 import { Models } from 'appwrite'
 import UserCard from './UserCard'

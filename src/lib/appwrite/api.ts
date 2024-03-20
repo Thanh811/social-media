@@ -89,6 +89,16 @@ export const signOutAccount = async () => {
   }
 };
 
+export const changePassword = async (email: string) => {
+  try {
+    const session = await account.createRecovery(email, 'http://localhost:5173/recovery-password');
+    console.log(session)
+    return session;
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export const createPost = async (post: INewPost) => {
   try {
     // Upload file to storage

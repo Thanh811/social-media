@@ -2,9 +2,10 @@ import { getCurrentUser } from "@/lib/appwrite/api";
 import { IUser } from "@/types";
 import React, { useEffect, useState } from "react";
 import { AuthContext, INITIAL_USER } from "./useContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+  const [param] = useSearchParams();
   const [user, setUser] = useState<IUser>(INITIAL_USER);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -37,16 +38,12 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect((() => {
     const cookieFallback = localStorage.getItem("cookieFallback");
-
-    if (
-      cookieFallback === "[]" ||
-      cookieFallback === null ||
-      cookieFallback === undefined
-    ) {
-      navigate("/sign-in");
+    if (!!cookieFallback && cookieFallback !== "[]" && isAuthenticated) {
+      checkAuthUser()
       return
     }
-    checkAuthUser()
+    if (param.get("userId") && param.get("secret")) return
+    navigate("/sign-in");
   }), [])
 
   const value = {

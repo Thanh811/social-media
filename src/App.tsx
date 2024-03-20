@@ -1,10 +1,10 @@
 import { Route, Routes } from "react-router-dom";
-import { Toaster } from "@/components/ui/toaster";
 import AuthLayout from "@/_auth/AuthLayout";
 import RootLayout from "@/_root/RootLayout";
-import SignInForm from "@/_auth/forms/SignInForm";
-import SignUpForm from "@/_auth/forms/SignUpForm";
+import {ForgetPassword, SignInForm, SignUpForm} from "@/_auth/forms"
 import { AllUsers, CreatePost, EditPost, Explore, Home, PostDetail, Profile, Saved, UpdateProfile } from "@/_root/pages";
+import { Toaster } from "@/components/ui";
+import RecoveryPassword from "./_auth/forms/RecoveryPassword";
 
 
 function App() {
@@ -16,6 +16,8 @@ function App() {
         <Route element={<AuthLayout />}>
           <Route path="sign-in" element={<SignInForm />} />
           <Route path="sign-up" element={<SignUpForm />} />
+          <Route path="forget-password" element={<ForgetPassword />} />
+          <Route path="recovery-password" element={<RecoveryPassword />} />
         </Route>
 
         {/* Private route */}

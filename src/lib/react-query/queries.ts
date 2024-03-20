@@ -20,7 +20,7 @@ import {
 } from "../appwrite/api";
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { QUERY_KEYS } from "./queryKey";
-
+// ----------- Authorization ---- //
 export const useCreateUserAccount = () => {
   return useMutation({
     mutationFn: (user: INewUser) => createUserAccount(user),
@@ -34,12 +34,14 @@ export const useSignInAccount = () => {
   });
 };
 
-export const useSignOutAccount = () => {
+export const useSignOutAccount = (cb: () => void) => {
   return useMutation({ mutationFn: () => {
-    localStorage.removeItem('cookieFallback')
+    cb()
     return signOutAccount()
   }});
 };
+
+// ----------- Authorization ---- //
 
 export const useCreatePost = () => {
   const queryClient = useQueryClient();

@@ -3,7 +3,7 @@ import PostCard from "@/components/shared/PostCard";
 import TopCreator from "@/components/shared/TopCreator";
 import { useGetRecentPosts } from "@/lib/react-query/queries";
 import { Models } from "appwrite";
-import React from "react";
+
 
 const Home = () => {
   const { data: posts, isPending: isPostLoading,

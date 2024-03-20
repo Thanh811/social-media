@@ -1,4 +1,3 @@
-import React from 'react'
 import { Link } from 'react-router-dom';
 import PostStats from './PostStats';
 import { useUserContext } from '@/context/useContext';
@@ -11,8 +10,8 @@ type GridPostListProps = {
 };
 
 const GridPostList = ({posts,
-  showUser = true,
-  showStats = true,
+  showUser = false,
+  showStats = false,
 }: GridPostListProps) => {
   const { user } = useUserContext();
 

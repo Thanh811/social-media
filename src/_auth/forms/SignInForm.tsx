@@ -12,7 +12,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import React from "react";
 import { SignInValidation } from "@/lib/validation";
 import Loader from "@/components/shared/Loader";
 import { Link, useNavigate } from "react-router-dom";
@@ -48,7 +47,6 @@ const SignInForm = () => {
   
       if (!session) {
         toast({ title: SIGN_IN.SIGN_IN_FAIL });
-        navigate("/sign-in");
         return;
       }
       
@@ -128,6 +126,14 @@ const SignInForm = () => {
             </Link>
           </p>
         </form>
+          <p className="text-small-regular text-light-2 text-center mt-2">
+            Forget your password
+            <Link
+              to="/forget-password"
+              className="text-primary-500 text-small-semibold ml-1">
+              Forgot password
+            </Link>
+          </p>
       </div>
     </Form>
   );
