@@ -55,3 +55,10 @@ export enum ACTION_POST {
 }
 
 
+const {
+  MODE: ENVIRONMENT,
+} = import.meta.env;
+
+export {
+  ENVIRONMENT
+};
