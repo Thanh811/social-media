@@ -13,19 +13,19 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { SignInValidation } from "@/lib/validation";
-// import Loader from "@/components/shared/Loader";
-import { Link } from "react-router-dom";
-// import { useSignInAccount } from "@/lib/react-query/queries";
-// import { useUserContext } from "@/context/useContext";
-// import { SIGN_IN } from "@/constants/message";
-// import { useToast } from "@/components/ui/use-toast";
+import Loader from "@/components/shared/Loader";
+import { Link, useNavigate } from "react-router-dom";
+import { useSignInAccount } from "@/lib/react-query/queries";
+import { useUserContext } from "@/context/useContext";
+import { SIGN_IN } from "@/constants/message";
+import { useToast } from "@/components/ui/use-toast";
 
 const SignInForm = () => {
-  // const { toast } = useToast();
-  // const navigate = useNavigate();
+  const { toast } = useToast();
+  const navigate = useNavigate();
 
-  // const { mutateAsync: signInAccount, isPending: isSigningInUser } = useSignInAccount();
-  // const { checkAuthUser, isLoading: isUserLoading} = useUserContext();
+  const { mutateAsync: signInAccount, isPending: isSigningInUser } = useSignInAccount();
+  const { checkAuthUser, isLoading: isUserLoading} = useUserContext();
 
   const form = useForm<z.infer<typeof SignInValidation>>({
     resolver: zodResolver(SignInValidation),
@@ -39,45 +39,42 @@ const SignInForm = () => {
   async function onSubmit(values: z.infer<typeof SignInValidation>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    console.log(values);
     
-    // try {
-    //   const session = await signInAccount({
-    //     email: values.email,
-    //     password: values.password,
-    //   });
+    try {
+      const session = await signInAccount({
+        email: values.email,
+        password: values.password,
+      });
   
-    //   if (!session) {
-    //     toast({ title: SIGN_IN.SIGN_IN_FAIL });
-    //     return;
-    //   }
+      if (!session) {
+        toast({ title: SIGN_IN.SIGN_IN_FAIL });
+        return;
+      }
       
-    //   const isLoggedIn = await checkAuthUser();
+      const isLoggedIn = await checkAuthUser();
   
-    //   if (isLoggedIn) {
-    //     form.reset();
-    //     navigate("/");
-    //   }else {
-    //     toast({ title: "Login failed. Please try again." });
-    //     return;
-    //   }
-    // } catch (error) {
-    //   console.log({ error });
-    // }
-    
-
+      if (isLoggedIn) {
+        form.reset();
+        navigate("/");
+      }else {
+        toast({ title: "Login failed. Please try again." });
+        return;
+      }
+    } catch (error) {
+      console.log({ error });
+    }
   }
 
   return (
     <Form {...form}>
       <div className="sm:w-420 flex-center flex-col">
         <img src="/assets/images/logo.svg" />
-        {/* <h2 className="h3-bold md:h2-bold pt-5 sm:pt-12">
+        <h2 className="h3-bold md:h2-bold pt-5 sm:pt-12">
           Create a new account
         </h2>
         <p className="text-light-3 small-medium md:base-regular mt-2">
           To use Snagram enter your details
-        </p> */}
+        </p>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-8 flex flex-col gap-3 w-full mt-4"
@@ -110,14 +107,14 @@ const SignInForm = () => {
             )}
           />
           <Button type="submit" className="shad-button_primary">
-            {/* {isSigningInUser || isUserLoading ? (
+            {isSigningInUser || isUserLoading ? (
               <div className="flex-center gap-2">
                 <Loader />
                 Loading...
               </div>
             ) : (
               "Log in"
-            )} */}
+            )}
             Login
           </Button>
           <p className="text-small-regular text-light-2 text-center mt-2">
