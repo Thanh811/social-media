@@ -1,5 +1,7 @@
-import { INewPost, INewUser, IUpdatePost, IUpdateUser } from "@/types";
+import { INewPost, INewUser, IUpdatePost, IUpdateUser, PRecoveryPassword } from "@/types";
 import {
+  changePassword,
+  confirmRecoveryPassword,
   createPost,
   createUserAccount,
   deletePost,
@@ -40,6 +42,18 @@ export const useSignOutAccount = (cb: () => void) => {
     return signOutAccount()
   }});
 };
+
+export const useChangePassword = () => {
+  return useMutation({
+    mutationFn: (email: string) => changePassword(email)
+  })
+}
+
+export const useConfirmRecoveryPassword = () => {
+  return useMutation({
+    mutationFn: (param: PRecoveryPassword) => confirmRecoveryPassword(param)
+  })
+}
 
 // ----------- Authorization ---- //
 

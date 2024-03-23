@@ -1,4 +1,4 @@
-import { INewPost, INewUser, IUpdatePost, IUpdateUser } from "@/types";
+import { INewPost, INewUser, IUpdatePost, IUpdateUser, PRecoveryPassword } from "@/types";
 import { account, appwriteConfig, avatars, databases, storage } from "./config";
 import { ID, Query } from "appwrite";
 
@@ -82,7 +82,6 @@ export const getCurrentUser = async () => {
 export const signOutAccount = async () => {
   try {
     const session = await account.deleteSession("account");
-    console.log(session)
     return session;
   } catch (error) {
     console.log(error);
@@ -92,8 +91,16 @@ export const signOutAccount = async () => {
 export const changePassword = async (email: string) => {
   try {
     const session = await account.createRecovery(email, 'http://localhost:5173/recovery-password');
-    console.log(session)
     return session;
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export const confirmRecoveryPassword = async ({password, passwordAgain, secret, userId}: PRecoveryPassword) => {
+  try {
+    const response = account.updateRecovery(userId, secret, password, passwordAgain)
+    return response
   } catch (error) {
     console.log(error)
   }
