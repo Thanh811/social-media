@@ -1,8 +1,8 @@
-import { Button, Input, useToast } from '@/components/ui';
-import { ForgotPasswordValidation } from '@/lib/validation';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { Button, Input, useToast } from "@/components/ui";
+import { ForgotPasswordValidation } from "@/lib/validation";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useForm } from 'react-hook-form';
+import { useForm } from "react-hook-form";
 import {
   Form,
   FormControl,
@@ -11,28 +11,32 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { changePassword } from '@/lib/appwrite/api';
+import { useChangePassword } from "@/lib/react-query/queries";
+import { Loader } from "@/components/shared";
 
 const ForgetPassword = () => {
   const { toast } = useToast();
+  const { mutateAsync: changePassword, isPending: isLoading } =
+    useChangePassword();
 
   const form = useForm<z.infer<typeof ForgotPasswordValidation>>({
     resolver: zodResolver(ForgotPasswordValidation),
     defaultValues: {
-      email: ''
+      email: "",
     },
   });
 
   async function onSubmit(values: z.infer<typeof ForgotPasswordValidation>) {
     try {
-
-      const response = await changePassword(values.email)
-      if (!response) return
-      toast({title: 'Recovery success', content: 'Go to your Email to get the notification'})
+      const response = await changePassword(values.email);
+      if (!response) return;
+      toast({
+        title: "Recovery success",
+        content: "Go to your Email to get the notification",
+      });
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-
   }
 
   return (
@@ -43,7 +47,7 @@ const ForgetPassword = () => {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Password to reset </FormLabel>
+              <FormLabel>Email to recovery </FormLabel>
               <FormControl>
                 <Input type="text" className="shad-input" {...field} />
               </FormControl>
@@ -52,10 +56,23 @@ const ForgetPassword = () => {
             </FormItem>
           )}
         />
-        <Button type="submit" className="shad-button_primary">Submit</Button>
+        <Button
+          type="submit"
+          className="shad-button_primary"
+          disabled={isLoading}
+        >
+          {isLoading ? (
+            <div className="flex-center gap-2">
+              <Loader />
+              Loading...
+            </div>
+          ) : (
+            "Submit"
+          )}
+        </Button>
       </form>
     </Form>
-  )
-}
+  );
+};
 
-export default ForgetPassword
+export default ForgetPassword;

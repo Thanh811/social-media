@@ -55,3 +55,10 @@ export type IContextType = {
   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
   checkAuthUser: () => Promise<boolean>;
 };
+//Prefix P is shortcut of Parameter function
+export type PRecoveryPassword = {
+  userId: string
+  secret: string
+  password: string
+  passwordAgain: string
+}
