@@ -37,12 +37,12 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   useEffect((() => {
+    if (param.get("userId") && param.get("secret")) return
     const cookieFallback = localStorage.getItem("cookieFallback");
-    if (!!cookieFallback && cookieFallback !== "[]" && isAuthenticated) {
+    if (!!cookieFallback && cookieFallback !== "[]") {
       checkAuthUser()
       return
     }
-    if (param.get("userId") && param.get("secret")) return
     navigate("/sign-in");
   }), [])
 

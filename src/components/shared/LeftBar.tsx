@@ -5,6 +5,7 @@ import { INavLink } from '@/types'
 import { useEffect } from 'react'
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
+import { Badge } from '../ui/badge'
 
 const LeftBar = () => {
   const { pathname } = useLocation()
@@ -18,7 +19,7 @@ const LeftBar = () => {
 
   return (
     <nav className="leftsidebar">
-      <div className="flex flex-col gap-11">
+      <div className="flex flex-col gap-11 ">
         <Link to="/" className="flex gap-3 items-center">
           <img
             src="/assets/images/logo.svg"
@@ -38,7 +39,7 @@ const LeftBar = () => {
             <p className="small-regular text-light-3">@{user.username}</p>
           </div>
         </Link>
-        <ul className="flex flex-col gap-6">
+        <ul className="flex flex-col gap-6 overflow-scroll custom-scrollbar">
           {sidebarLinks.map((link: INavLink) => {
             const isActive = pathname === link.route;
 
@@ -54,9 +55,9 @@ const LeftBar = () => {
                     src={link.imgURL}
                     alt={link.label}
                     className={`group-hover:invert-white ${isActive && "invert-white"
-                      }`}
+                      } h-6 w-6`}
                   />
-                  {link.label}
+                  {link.label} {link.label === 'Messenger' && <Badge variant="outline">12</Badge>}
                 </NavLink>
               </li>
             )
@@ -64,12 +65,12 @@ const LeftBar = () => {
         </ul>
       </div>
       <Button
-        className="shad-button_ghost"
+        className="shad-button_ghost "
         variant={"ghost"}
         onClick={() => signOutAccount(setIsAuthenticated(false))}
       >
         <img src="/assets/icons/logout.svg" alt="logout" />
-        <p className='small-medium lg:base-medium'>Log out</p>
+        <p className='small-medium lg:base-medium '>Log out</p>
       </Button>
     </nav>
   )
