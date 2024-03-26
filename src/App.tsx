@@ -14,7 +14,7 @@ function App() {
       <Routes>
         {/* Public route */}
         <Route element={<AuthLayout />}>
-          <Route path="sign-in" element={<SignInForm />} />
+          <Route path="sign-in" element={<SignInForm submitEvent={()=>{}}/>} />
           <Route path="sign-up" element={<SignUpForm />} />
           <Route path="forget-password" element={<ForgetPassword />} />
           <Route path="recovery-password" element={<RecoveryPassword />} />

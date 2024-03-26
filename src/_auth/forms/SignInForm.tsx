@@ -19,13 +19,15 @@ import { useSignInAccount } from "@/lib/react-query/queries";
 import { useUserContext } from "@/context/useContext";
 import { SIGN_IN } from "@/constants/message";
 import { useToast } from "@/components/ui/use-toast";
-
-const SignInForm = () => {
+interface IProps {
+  submitEvent: () => void
+}
+const SignInForm = ({submitEvent}: IProps) => {
   const { toast } = useToast();
   const navigate = useNavigate();
-
-  const { mutateAsync: signInAccount, isPending: isSigningInUser } = useSignInAccount();
-  const { checkAuthUser, isLoading: isUserLoading} = useUserContext();
+  const { mutateAsync: signInAccount, isPending: isSigningInUser } =
+    useSignInAccount();
+  const { checkAuthUser, isLoading: isUserLoading } = useUserContext();
 
   const form = useForm<z.infer<typeof SignInValidation>>({
     resolver: zodResolver(SignInValidation),
@@ -39,24 +41,24 @@ const SignInForm = () => {
   async function onSubmit(values: z.infer<typeof SignInValidation>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    
+    submitEvent()
     try {
       const session = await signInAccount({
         email: values.email,
         password: values.password,
       });
-  
+
       if (!session) {
         toast({ title: SIGN_IN.SIGN_IN_FAIL });
         return;
       }
-      
+
       const isLoggedIn = await checkAuthUser();
-  
+
       if (isLoggedIn) {
         form.reset();
         navigate("/");
-      }else {
+      } else {
         toast({ title: "Login failed. Please try again." });
         return;
       }
@@ -66,7 +68,7 @@ const SignInForm = () => {
   }
 
   return (
-    <Form {...form}>
+    <Form  {...form}>
       <div className="sm:w-420 flex-center flex-col">
         <img src="/assets/images/logo.svg" />
         <h2 className="h3-bold md:h2-bold pt-5 sm:pt-12">
@@ -78,6 +80,7 @@ const SignInForm = () => {
         <form
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-8 flex flex-col gap-3 w-full mt-4"
+          
         >
           <FormField
             control={form.control}
@@ -89,7 +92,7 @@ const SignInForm = () => {
                   <Input type="text" className="shad-input" {...field} />
                 </FormControl>
 
-                <FormMessage />
+                <FormMessage role='alert'/>
               </FormItem>
             )}
           />
@@ -120,19 +123,21 @@ const SignInForm = () => {
             Don&apos;t have an account?
             <Link
               to="/sign-up"
-              className="text-primary-500 text-small-semibold ml-1">
+              className="text-primary-500 text-small-semibold ml-1"
+            >
               Sign up
             </Link>
           </p>
         </form>
-          <p className="text-small-regular text-light-2 text-center mt-2">
-            Forget your password
-            <Link
-              to="/forget-password"
-              className="text-primary-500 text-small-semibold ml-1">
-              Forgot password
-            </Link>
-          </p>
+        <p className="text-small-regular text-light-2 text-center mt-2">
+          Forget your password
+          <Link
+            to="/forget-password"
+            className="text-primary-500 text-small-semibold ml-1"
+          >
+            Forgot password
+          </Link>
+        </p>
       </div>
     </Form>
   );
