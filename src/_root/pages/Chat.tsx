@@ -1,5 +1,4 @@
 import { Divider } from '@/components/shared'
-import React from 'react'
 
 const Chat = () => {
   return (
