@@ -190,6 +190,16 @@
     @apply flex flex-col flex-1 items-center gap-10 overflow-scroll py-10 px-5 md:p-14 custom-scrollbar;
   }
 
+  /* Chat */
+
+.chat-container {
+  @apply flex flex-col items-center gap-10 overflow-scroll py-10 px-4 md:px-8 lg:p-14 custom-scrollbar min-w-[270px];
+}
+
+.message-container {
+  @apply px-6 py-10 gap-10  overflow-scroll custom-scrollbar;
+}
+
   
 
   /* Bottom bar */

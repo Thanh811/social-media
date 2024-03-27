@@ -7,4 +7,5 @@ export { default as TopBar } from "./TopBar";
 export { default as UserCard } from "./UserCard";
 export { default as FileUploader } from "./FileUploader";
 export { default as ProfileUploader } from "./ProfileUploader";
+export { default as Divider } from "./Divider";
 export { default as PostStats } from "./PostStats";

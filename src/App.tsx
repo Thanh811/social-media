@@ -2,7 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import AuthLayout from "@/_auth/AuthLayout";
 import RootLayout from "@/_root/RootLayout";
 import {ForgetPassword, SignInForm, SignUpForm} from "@/_auth/forms"
-import { AllUsers, CreatePost, EditPost, Explore, Home, PostDetail, Profile, Saved, UpdateProfile } from "@/_root/pages";
+import { AllUsers, Chat, CreatePost, EditPost, Explore, Home, PostDetail, Profile, Saved, UpdateProfile } from "@/_root/pages";
 import { Toaster } from "@/components/ui";
 import RecoveryPassword from "./_auth/forms/RecoveryPassword";
 
@@ -27,6 +27,7 @@ function App() {
           <Route path="/saved" element={<Saved />} />
           <Route path="/all-users" element={<AllUsers />} />
           <Route path="/create-post" element={<CreatePost />} />
+          <Route path="/chat" element={<Chat />} />
           <Route path="/update-post/:id" element={<EditPost />} />
           <Route path="/posts/:id" element={<PostDetail />} />
           <Route path="/profile/:id/*" element={<Profile />} />
